@@ -1,0 +1,47 @@
+<ion-menu [content]="content">
+  <ion-header>
+    <ion-toolbar>
+      <ion-title>Menu</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-content>
+    <ion-list>
+      <button menuClose ion-item *ngFor="let p of pages" (click)="openPage(p)">
+        {{p.title}}
+      </button>
+    </ion-list>
+  </ion-content>
+
+</ion-menu>
+<ion-menu side="right" [content]="content">
+  <ion-content class="credits">
+  <ion-row style="margin-top: 20%;">
+    <ion-col>
+      <h1><span style="font-weight:bold;">Uni</span>Pal</h1>
+    </ion-col>
+  </ion-row>
+  <ion-row>
+    <ion-col width-25>
+    </ion-col>
+
+    <ion-col width-50>
+      <ion-img src="assets/images/unipal.png"></ion-img>
+    </ion-col>
+
+    <ion-col width-25></ion-col>
+  </ion-row>
+  <ion-row>
+    <ion-col width-25></ion-col>
+
+    <ion-col width-50 class="right-menu-message">
+      Gracias por usar <span style="font-weight:bold;">Uni</span>Pal!
+    </ion-col>
+
+    <ion-col width-25></ion-col>
+
+  </ion-row>
+  </ion-content>
+</ion-menu>
+<!-- Disable swipe-to-go-back because it's poor UX to combine STGB with side menus -->
+<ion-nav [root]="rootPage" #content swipeBackEnabled="false"></ion-nav>

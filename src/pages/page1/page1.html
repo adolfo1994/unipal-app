@@ -1,0 +1,55 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title> <span style="font-weight:bold;">Uni</span>Pal</ion-title>
+    <button ion-button menuToggle="right" right style="width:12%;" >
+      <ion-img src="assets/images/unipal.png"></ion-img>
+    </button>
+    
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content padding>
+  <ion-grid>
+    <ion-row>
+      <ion-col width-25></ion-col>
+      <ion-col width-50 class="title"><h3>Pendientes</h3></ion-col>
+      <ion-col width-25></ion-col>
+    </ion-row>
+  </ion-grid>
+  <div *ngIf="teamMembers && teamMembers.length > 0">
+    <ion-card *ngFor="let t of teamMembers">
+      <ion-card-header>
+        <ion-row>
+          <ion-col width-50 class="todo-date">
+            Para Mañana
+          </ion-col>
+          <ion-col width-50 class="todo-class">
+            Clase1
+          </ion-col>
+        </ion-row>
+      </ion-card-header>
+      <ion-card-content>
+        The British use the term "header", but the American term "head-shot" the English simply refuse to adopt.
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+  <div *ngIf="teamMembers && teamMembers.length == 0">
+    Felicitaciones no tienes tareas pendientes! 
+  </div>
+
+
+
+  <!-- Real floating action button, fixed. It will not scroll with the content -->
+  <ion-fab bottom right>
+    <button ion-fab><ion-icon name="add"></ion-icon></button>
+    <ion-fab-list side="top">
+      <button ion-fab><ion-icon name="md-person-add"></ion-icon></button>
+      <button ion-fab><ion-icon name="md-book"></ion-icon></button>
+    </ion-fab-list>
+  </ion-fab>
+</ion-content>
