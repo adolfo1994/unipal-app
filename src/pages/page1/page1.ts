@@ -1,14 +1,15 @@
 import { Component } from '@angular/core';
-import { Http, Response, Headers } from '@angular/http';
+import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import {Observable} from 'rxjs/Rx';
  import 'rxjs/add/operator/map';
 import {AUTOCOMPLETE_DIRECTIVES} from 'ionic2-auto-complete';
 import {FriendAutoCompleteService} from '../../providers/autocomplete';
 
+import 'rxjs/add/operator/toPromise';
+
 import { ModalController, Platform, NavController, ViewController, NavParams } from 'ionic-angular';
 
-let options = {headers: new Headers({'Accept': 'application/json'})};
-
+let options = new RequestOptions({headers: new Headers({'Accept': 'application/json', 'Content-Type': 'application/json'})});
 
 @Component({
   templateUrl: 'addFriend.html',
@@ -87,14 +88,28 @@ export class AddFriendModal{
 export class AddToDoModal {
     course : string;
     description : string;
-    dueDate : Date;
+    dueDate : string;
     priority: Number;
 
-  constructor(public platform: Platform, public params: NavParams, public viewCtrl: ViewController) {
-
+  constructor(public platform: Platform, public params: NavParams, public viewCtrl: ViewController, public http: Http) {
+    this.dueDate = (new Date()).toISOString();
   }
-  submitForm(){
-    console.log(this.course);
+  submitForm() {
+    let obj = {
+      subject: {
+        name: this.course,
+        semester: 1
+      },
+      description: this.description,
+      due_date: this.dueDate,
+      priority: this.priority,
+      user: 1
+    };
+    console.log(obj.due_date);
+    this.http.post('http://unipal-api.public.ndev.tech/api/academic/Todo/', obj, options).toPromise().catch(function (err) {
+      console.log(err);
+    });
+    this.viewCtrl.dismiss();
   }
 
   dismiss() {
@@ -108,7 +123,7 @@ export class AddToDoModal {
 })
 export class Page1 {
   public teamMembers;
-  private todos: any;
+  todos: any;
   constructor(public navCtrl: NavController, public modalCtrl: ModalController, public http: Http){
       this.teamMembers = ["Adolfo", "Jose", "Aldo", "Adolfo", "Jose", "Aldo"];
       this.getToDos().subscribe(
@@ -119,6 +134,9 @@ export class Page1 {
   }
   extractToDos (data) {
     this.todos = data;
+    for (let i = 0; i < data.length; ++i) {
+      data[i].dueDate = new Date(data[i].due_date).toLocaleDateString();
+    }
   }
 
   getToDos() {
