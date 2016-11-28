@@ -26,11 +26,15 @@
 }
 .credits{
     background-color: $accent-color;
-    color: $divider-color;  
+    color: $divider-color;
     font-family: 'Roboto', sans-serif;
     text-align: center;
     .right-menu-message{
         font-size: 30px;
-    } 
+    }
 
+}
+
+.card-md {
+  background-color: $card-color;
 }
