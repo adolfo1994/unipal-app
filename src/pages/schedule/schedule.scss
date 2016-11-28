@@ -46,3 +46,14 @@ page-schedule {
     }
   }
 }
+
+modal-add-schedule-item {
+  form {
+    display: flex;
+    flex-flow: column;
+    height: 100%;
+    .fill {
+      flex-grow: 1 !important;
+    }
+  }
+}
