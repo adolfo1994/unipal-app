@@ -41,9 +41,9 @@ export class SchedulePage {
   }
 
   updateDay(data) {
-    let day = parseInt(data.day);
-    if (!data || !day)
+    if (!data || !parseInt(data.day))
       return;
+    let day = parseInt(data.day);
     delete data.day;
     this.data[day - 1].actions.push(data);
   }
