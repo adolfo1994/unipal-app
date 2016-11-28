@@ -108,7 +108,7 @@ export class AddToDoModal {
 })
 export class Page1 {
   public teamMembers;
-  private todos: any;
+  todos: any;
   constructor(public navCtrl: NavController, public modalCtrl: ModalController, public http: Http){
       this.teamMembers = ["Adolfo", "Jose", "Aldo", "Adolfo", "Jose", "Aldo"];
       this.getToDos().subscribe(

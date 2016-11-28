@@ -1,10 +1,12 @@
 import { Component, ViewChild } from '@angular/core';
 import { Nav, Platform, AlertController } from 'ionic-angular';
 import { StatusBar, Splashscreen, Push } from 'ionic-native';
+import { Http, Response, Headers, RequestOptions } from '@angular/http';
 
 import { Page1 } from '../pages/page1/page1';
 import { SchedulePage } from '../pages/schedule/schedule';
 
+let options = new RequestOptions({headers: new Headers({'Accept': 'application/json', 'Content-Type': 'application/json'})});
 
 @Component({
   templateUrl: 'app.html'
@@ -16,7 +18,7 @@ export class MyApp {
 
   pages: Array<{title: string, component: any}>;
 
-  constructor(public platform: Platform, public alertCtrl: AlertController) {
+  constructor(public platform: Platform, public alertCtrl: AlertController, public http: Http) {
     this.initializeApp();
 
     // used for an example of ngFor and navigation
@@ -40,6 +42,16 @@ export class MyApp {
     });
   }
 
+  s4() {
+    return Math.floor((1 + Math.random()) * 0x10000)
+      .toString(16)
+      .substring(1);
+  }
+
+  catchError(error: any) {
+    console.log(error);
+  }
+
   setupPushNotification() {
     let push = Push.init({
       android: {
@@ -59,6 +71,11 @@ export class MyApp {
 
     push.on('registration', (data) => {
       console.log("device token ->", data.registrationId);
+      let config = {
+        'name': 'unipal-' + this.s4(),
+        'registration_id': data.registrationId
+      };
+      this.http.post('http://unipal-api.public.ndev.tech/api/device/gcm/', config, options);
     });
     push.on('notification', (data) => {
       console.log('message', data.message);
@@ -75,15 +92,13 @@ export class MyApp {
           }, {
             text: 'Añadir',
             handler: () => {
-              //TODO: Your logic here
-              self.nav.push(Page1, {message: data.message});
+              // self.nav.push(Page1, {message: data.message});
             }
           }]
         });
         confirmAlert.present();
       } else {
         //if user NOT using app and push notification comes
-        //TODO: Your logic on click of push notification directly
         self.nav.push(Page1, {message: data.message});
         console.log("Push notification clicked");
       }
