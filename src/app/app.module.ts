@@ -3,7 +3,7 @@ import { IonicApp, IonicModule} from 'ionic-angular';
 import { AUTOCOMPLETE_DIRECTIVES, AUTOCOMPLETE_PIPES } from 'ionic2-auto-complete';
 import { MyApp } from './app.component';
 import { Page1, AddFriendModal, AddToDoModal } from '../pages/page1/page1';
-import { SchedulePage, AddScheduleItem } from '../pages/page2/page2';
+import { SchedulePage, AddScheduleItem } from '../pages/schedule/schedule';
 import {FriendAutoCompleteService} from '../providers/autocomplete';
 
 @NgModule({

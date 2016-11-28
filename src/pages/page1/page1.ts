@@ -1,11 +1,13 @@
 import { Component } from '@angular/core';
-import { Http, Response} from '@angular/http';
+import { Http, Response, Headers } from '@angular/http';
 import {Observable} from 'rxjs/Rx';
  import 'rxjs/add/operator/map';
 import {AUTOCOMPLETE_DIRECTIVES} from 'ionic2-auto-complete';
 import {FriendAutoCompleteService} from '../../providers/autocomplete';
 
 import { ModalController, Platform, NavController, ViewController, NavParams } from 'ionic-angular';
+
+let options = {headers: new Headers({'Accept': 'application/json'})};
 
 
 @Component({
@@ -33,9 +35,9 @@ export class AddFriendModal{
   }
 
   initializeItems(keyword: string) {
-    var url = "https://restcountries.eu/rest/v1/";
+    //var url = "https://restcountries.eu/rest/v1/";
     var url = "http://unipal-api.public.ndev.tech/api/accounts/Users/";
-    var response = this.http.get(url).map(res => res.json())
+    var response = this.http.get(url, options).map(res => res.json());
     return response;
   }
 
@@ -120,9 +122,8 @@ export class Page1 {
   }
 
   getToDos() {
-    var url = "http://unipal-api.public.ndev.tech/api/academic/Todo/";
-    var response = this.http.get(url).map(res => res.json())
-    return response;
+    let url = "http://unipal-api.public.ndev.tech/api/academic/Todo/";
+    return this.http.get(url, options).map(res => res.json());
   }
 
   addFriend() {
