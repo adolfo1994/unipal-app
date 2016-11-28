@@ -1,6 +1,5 @@
 // http://ionicframework.com/docs/v2/theming/
 
-
 // App Global Sass
 // --------------------------------------------------
 // Put style rules here that you want to apply globally. These
@@ -26,11 +25,30 @@
 }
 .credits{
     background-color: $accent-color;
-    color: $divider-color;  
+    color: $divider-color;
     font-family: 'Roboto', sans-serif;
     text-align: center;
     .right-menu-message{
         font-size: 30px;
-    } 
+    }
 
+}
+
+ion-auto-complete {
+  display     : block !important;
+  overflow    : hidden !important;
+}
+
+ion-auto-complete ion-list {
+  margin    :   8px !important;
+  margin-top:   -8px !important;
+  border    :   1px solid #dedede !important;
+}
+
+ion-auto-complete ion-item {
+}
+
+ion-auto-complete ion-item:hover {
+  background    : #f1f1f1 !important;
+  cursor        : pointer !important;
 }
