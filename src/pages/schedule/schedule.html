@@ -1,0 +1,41 @@
+<ion-header>
+
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Horario</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <ion-list>
+    <ion-item padding *ngFor="let d of data" (click)="toggleDetails(d)">
+      <ion-icon [color]="d.showDetails ? 'primary' : 'success'" item-right [name]="iconName[d.showDetails ? 1 : 0]"></ion-icon>
+      {{ days[d.day] }}
+      <div *ngIf="d.showDetails">
+        <ion-card *ngFor="let action of d.actions">
+          <ion-card-content>
+            <ion-row class="action-header">
+              <ion-col width-50 class="action-place">
+                {{ action.start }} - {{ action.end }}
+              </ion-col>
+              <ion-col width-50 class="action-location">
+                {{ action.location }}
+              </ion-col>
+            </ion-row>
+            <ion-row class="action-name">
+              {{ action.name }}
+            </ion-row>
+          </ion-card-content>
+        </ion-card>
+      </div>
+    </ion-item>
+  </ion-list>
+
+  <ion-fab bottom right>
+    <button ion-fab (click)="addScheduleItem()"><ion-icon name="add"></ion-icon></button>
+  </ion-fab>
+</ion-content>

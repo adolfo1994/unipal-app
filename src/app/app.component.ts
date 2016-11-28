@@ -1,9 +1,9 @@
 import { Component, ViewChild } from '@angular/core';
-import { Nav, Platform } from 'ionic-angular';
-import { StatusBar, Splashscreen } from 'ionic-native';
+import { Nav, Platform, AlertController } from 'ionic-angular';
+import { StatusBar, Splashscreen, Push } from 'ionic-native';
 
-import { Page1, AddFriendModal } from '../pages/page1/page1';
-import { Page2 } from '../pages/page2/page2';
+import { Page1 } from '../pages/page1/page1';
+import { SchedulePage } from '../pages/schedule/schedule';
 
 
 @Component({
@@ -16,14 +16,16 @@ export class MyApp {
 
   pages: Array<{title: string, component: any}>;
 
-  constructor(public platform: Platform) {
+  constructor(public platform: Platform, public alertCtrl: AlertController) {
     this.initializeApp();
 
     // used for an example of ngFor and navigation
     this.pages = [
       { title: 'Pendientes', component: Page1 },
-      { title: 'Calendario', component: Page2 }
+      { title: 'Horario', component: SchedulePage }
     ];
+
+
 
   }
 
@@ -33,6 +35,61 @@ export class MyApp {
       // Here you can do any higher level native things you might need.
       StatusBar.styleDefault();
       Splashscreen.hide();
+
+      this.setupPushNotification();
+    });
+  }
+
+  setupPushNotification() {
+    let push = Push.init({
+      android: {
+        senderID: "1043191181892"
+      },
+      ios: {
+        alert: "true",
+        badge: false,
+        sound: "true"
+      },
+      windows: {}
+    });
+
+    if (!push.on) {
+      return;
+    }
+
+    push.on('registration', (data) => {
+      console.log("device token ->", data.registrationId);
+    });
+    push.on('notification', (data) => {
+      console.log('message', data.message);
+      let self = this;
+      //if user using app and push notification comes
+      if (data.additionalData.foreground) {
+        // if application open, show popup
+        let confirmAlert = this.alertCtrl.create({
+          title: 'UniPal',
+          message: data.message,
+          buttons: [{
+            text: 'Ignorar',
+            role: 'cancel'
+          }, {
+            text: 'Añadir',
+            handler: () => {
+              //TODO: Your logic here
+              self.nav.push(Page1, {message: data.message});
+            }
+          }]
+        });
+        confirmAlert.present();
+      } else {
+        //if user NOT using app and push notification comes
+        //TODO: Your logic on click of push notification directly
+        self.nav.push(Page1, {message: data.message});
+        console.log("Push notification clicked");
+      }
+    });
+    push.on('error', (e) => {
+      console.log(e.message);
     });
   }
 
